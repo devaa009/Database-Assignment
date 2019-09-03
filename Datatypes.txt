@@ -1,0 +1,405 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.1.38-community MySQL Community Server (GPL)
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| day2               |
+| db                 |
+| dbname             |
+| employee           |
+| exam               |
+| hobman             |
+| mydb               |
+| mydb2              |
+| mydemo2            |
+| mydemodata         |
+| mysql              |
+| person             |
+| test               |
+| vita               |
++--------------------+
+15 rows in set (0.00 sec)
+
+mysql> create database TEXTDATATYPES;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| day2               |
+| db                 |
+| dbname             |
+| employee           |
+| exam               |
+| hobman             |
+| mydb               |
+| mydb2              |
+| mydemo2            |
+| mydemodata         |
+| mysql              |
+| person             |
+| test               |
+| textdatatypes      |
+| vita               |
++--------------------+
+16 rows in set (0.00 sec)
+
+mysql> create table TEXTDATATYPE
+    -> (
+    -> a char(10),
+    -> b varchar(20),
+    -> c text
+    -> );
+ERROR 1046 (3D000): No database selected
+mysql> use textdatatypes;
+Database changed
+mysql> create table textdatatype
+    -> (
+    -> a char(10),
+    -> b varchar(20),
+    -> c text
+    -> );
+Query OK, 0 rows affected (0.20 sec)
+
+
+mysql> insert into textdatatype VALUES
+    -> ('45','45','TEXT CAN READ LARGER VALUES'),('123','123','TEXT CAN READ LARGER VALUES');
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+
+mysql> select *
+    -> from textdatatype;
++------+------+-----------------------------+
+| a    | b    | c                           |
++------+------+-----------------------------+
+| 45   | 45   | TEXT CAN READ LARGER VALUES |
+| 123  | 123  | TEXT CAN READ LARGER VALUES |
++------+------+-----------------------------+
+2 rows in set (0.00 sec)
+
+
+mysql> select length(a), length(b)
+    -> from textdatatype;
++-----------+-----------+
+| length(a) | length(b) |
++-----------+-----------+
+|         2 |         2 |
+|         3 |         3 |
++-----------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> create table numdatatype
+    -> (
+    -> a tinyint, b smallint, c mediumint, d int, e bigint, f decimal(8,2), g double(8,2), h float);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> insert into numdatatype values(130,130,33456,333456,3333456,999999.99,999999.99,999999.99);
+ERROR 1264 (22003): Out of range value for column 'a' at row 1
+mysql> insert into numdatatype values(127,130,33456,333456,3333456,999999.99,999999.99,999999.99);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select *
+    -> from numdatatype;
++------+------+-------+--------+---------+-----------+-----------+--------+
+| a    | b    | c     | d      | e       | f         | g         | h      |
++------+------+-------+--------+---------+-----------+-----------+--------+
+|  127 |  130 | 33456 | 333456 | 3333456 | 999999.99 | 999999.99 | 1e+006 |
++------+------+-------+--------+---------+-----------+-----------+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into numdatatype values(127,130,33456,333456,3333456,999999.999,999999.99,999999.99);
+ERROR 1264 (22003): Out of range value for column 'f' at row 1
+mysql> insert into numdatatype values(127,130,33456,333456,3333456,999999.9,999999.99,999999.99);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select *
+    -> from numdatatype;
++------+------+-------+--------+---------+-----------+-----------+--------+
+| a    | b    | c     | d      | e       | f         | g         | h      |
++------+------+-------+--------+---------+-----------+-----------+--------+
+|  127 |  130 | 33456 | 333456 | 3333456 | 999999.99 | 999999.99 | 1e+006 |
+|  127 |  130 | 33456 | 333456 | 3333456 | 999999.90 | 999999.99 | 1e+006 |
++------+------+-------+--------+---------+-----------+-----------+--------+
+2 rows in set (0.00 sec)
+
+
+mysql> create table spldatatype
+    -> (ID int AUTO_INCREMENT primary key, membership ENUM('silver', 'gold' , 'platinum' ), hobbies SET('swimming','skying','cricket','football'));
+Query OK, 0 rows affected (0.22 sec)
+
+mysql> insert into spldatatype
+    -> (membership,hobbies)
+    -> values
+    -> ('silver','skying,football');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select *
+    -> from spldatatype;
++----+------------+-----------------+
+| ID | membership | hobbies         |
++----+------------+-----------------+
+|  1 | silver     | skying,football |
++----+------------+-----------------+
+1 row in set (0.02 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| day2               |
+| db                 |
+| dbname             |
+| employee           |
+| exam               |
+| hobman             |
+| mydb               |
+| mydb2              |
+| mydemo2            |
+| mydemodata         |
+| mysql              |
+| person             |
+| test               |
+| textdatatypes      |
+| vita               |
++--------------------+
+16 rows in set (0.22 sec)
+
+mysql> use vita
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_vita |
++----------------+
+| studentdetails |
++----------------+
+1 row in set (0.04 sec)
+
+mysql> select *
+    -> from studentdetails;
++-----------+-------------------+----------+--------+
+| StudentID | Name              | CCATRank | BRANCH |
++-----------+-------------------+----------+--------+
+|       111 | Sagar Manchekar   |      534 | EXTC   |
+|       222 | Shubham Paedeshi  |     2110 | MECH   |
+|       333 | Ashwin Waghchaure |     1874 | INSTRU |
+|       444 | Rohit Sorte       |      122 | EXTC   |
++-----------+-------------------+----------+--------+
+4 rows in set (0.04 sec)
+
+mysql> select *
+    -> order by name;
+ERROR 1096 (HY000): No tables used
+mysql> select *
+    -> from studentdetails
+    -> order by name;
++-----------+-------------------+----------+--------+
+| StudentID | Name              | CCATRank | BRANCH |
++-----------+-------------------+----------+--------+
+|       333 | Ashwin Waghchaure |     1874 | INSTRU |
+|       444 | Rohit Sorte       |      122 | EXTC   |
+|       111 | Sagar Manchekar   |      534 | EXTC   |
+|       222 | Shubham Paedeshi  |     2110 | MECH   |
++-----------+-------------------+----------+--------+
+4 rows in set (0.04 sec)
+
+mysql> select *
+    -> from studentdetails
+    -> order by name desc;
++-----------+-------------------+----------+--------+
+| StudentID | Name              | CCATRank | BRANCH |
++-----------+-------------------+----------+--------+
+|       222 | Shubham Paedeshi  |     2110 | MECH   |
+|       111 | Sagar Manchekar   |      534 | EXTC   |
+|       444 | Rohit Sorte       |      122 | EXTC   |
+|       333 | Ashwin Waghchaure |     1874 | INSTRU |
++-----------+-------------------+----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select *
+    -> from studentdetails
+    -> order by ccatrank;
++-----------+-------------------+----------+--------+
+| StudentID | Name              | CCATRank | BRANCH |
++-----------+-------------------+----------+--------+
+|       444 | Rohit Sorte       |      122 | EXTC   |
+|       111 | Sagar Manchekar   |      534 | EXTC   |
+|       333 | Ashwin Waghchaure |     1874 | INSTRU |
+|       222 | Shubham Paedeshi  |     2110 | MECH   |
++-----------+-------------------+----------+--------+
+4 rows in set (0.00 sec)
+
+mysql> select *
+    -> from studentdetails
+    -> order by branch;
++-----------+-------------------+----------+--------+
+| StudentID | Name              | CCATRank | BRANCH |
++-----------+-------------------+----------+--------+
+|       111 | Sagar Manchekar   |      534 | EXTC   |
+|       444 | Rohit Sorte       |      122 | EXTC   |
+|       333 | Ashwin Waghchaure |     1874 | INSTRU |
+|       222 | Shubham Paedeshi  |     2110 | MECH   |
++-----------+-------------------+----------+--------+
+4 rows in set (0.00 sec)
+
+
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| day2               |
+| db                 |
+| dbname             |
+| employee           |
+| exam               |
+| hobman             |
+| mydb               |
+| mydb2              |
+| mydemo2            |
+| mydemodata         |
+| mysql              |
+| person             |
+| test               |
+| textdatatypes      |
+| vita               |
++--------------------+
+16 rows in set (0.14 sec)
+
+mysql> use textdatatypes;
+Database changed
+mysql> show tables;
++-------------------------+
+| Tables_in_textdatatypes |
++-------------------------+
+| numdatatype             |
+| spldatatype             |
+| textdatatype            |
++-------------------------+
+3 rows in set (0.12 sec)
+
+mysql> create table DATETIME
+    -> (
+    -> a date, b datetime, c time stamp, d time);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use
+ near 'stamp, d time)' at line 3
+mysql> create table DATETIME
+    -> (
+    -> a date, b datetime, c timestamp, d time);
+Query OK, 0 rows affected (0.34 sec)
+
+mysql> insert into datetime values
+    -> (current_date(),now(),now(),now());
+Query OK, 1 row affected (0.17 sec)
+
+mysql> select *
+    -> from datetime;
++------------+---------------------+---------------------+----------+
+| a          | b                   | c                   | d        |
++------------+---------------------+---------------------+----------+
+| 2019-08-26 | 2019-08-26 22:30:10 | 2019-08-26 22:30:10 | 22:30:10 |
++------------+---------------------+---------------------+----------+
+1 row in set (0.00 sec)
+
+
+
+mysql> show databases
+    -> ;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| day2               |
+| db                 |
+| dbname             |
+| employee           |
+| exam               |
+| hobman             |
+| mydb               |
+| mydb2              |
+| mydemo2            |
+| mydemodata         |
+| mysql              |
+| person             |
+| test               |
+| textdatatypes      |
+| vita               |
++--------------------+
+16 rows in set (0.02 sec)
+
+mysql> use vita;
+Database changed
+mysql> show tables;
++----------------+
+| Tables_in_vita |
++----------------+
+| studentdetails |
++----------------+
+1 row in set (0.02 sec)
+
+mysql> select *
+    -> from studentdetails;
++-----------+-------------------+----------+--------+
+| StudentID | Name              | CCATRank | BRANCH |
++-----------+-------------------+----------+--------+
+|       111 | Sagar Manchekar   |      534 | EXTC   |
+|       222 | Shubham Paedeshi  |     2110 | MECH   |
+|       333 | Ashwin Waghchaure |     1874 | INSTRU |
+|       444 | Rohit Sorte       |      122 | EXTC   |
++-----------+-------------------+----------+--------+
+4 rows in set (0.04 sec)
+
+mysql> select studentid,
+    -> name;
+ERROR 1054 (42S22): Unknown column 'studentid' in 'field list'
+mysql> select studentid,
+    -> name,
+    -> studentid
+    -> from studentdetails
+    -> order by 222
+    -> limit 444;
+ERROR 1054 (42S22): Unknown column '222' in 'order clause'
+mysql> select studentid,
+    -> name,
+    -> studentid
+    -> from studentdetails
+    -> order by 2
+    -> limit 4;
++-----------+-------------------+-----------+
+| studentid | name              | studentid |
++-----------+-------------------+-----------+
+|       333 | Ashwin Waghchaure |       333 |
+|       444 | Rohit Sorte       |       444 |
+|       111 | Sagar Manchekar   |       111 |
+|       222 | Shubham Paedeshi  |       222 |
++-----------+-------------------+-----------+
+4 rows in set (0.02 sec)
+
+mysql> select studentid,
+    -> name,
+    -> studentid
+    -> from studentdetails
+    -> order by 2
+    -> limit 3;
++-----------+-------------------+-----------+
+| studentid | name              | studentid |
++-----------+-------------------+-----------+
+|       333 | Ashwin Waghchaure |       333 |
+|       444 | Rohit Sorte       |       444 |
+|       111 | Sagar Manchekar   |       111 |
++-----------+-------------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql>
