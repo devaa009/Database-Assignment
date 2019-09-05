@@ -1,0 +1,202 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7
+Server version: 5.1.38-community MySQL Community Server (GPL)
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use pgdac;
+Database changed
+mysql> create table class
+    -> (
+    -> id int auto_increment primary key ,
+    -> name varchar(20),
+    -> division char(2),
+    -> address varchar (20)
+    -> );
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * into class;
+ERROR 1327 (42000): Undeclared variable: class
+mysql> select * from  class;
++----+-------+----------+---------+
+| ID | name  | division | address |
++----+-------+----------+---------+
+|  1 | Astha | A        | Noida   |
++----+-------+----------+---------+
+1 row in set (0.00 sec)
+
+mysql> insert into class (name,division,address) value('omkar','a','mumbai'),('ajinkya','b','amb');
+Query OK, 2 rows affected (0.03 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from  class;
++----+---------+----------+---------+
+| ID | name    | division | address |
++----+---------+----------+---------+
+|  1 | Astha   | A        | Noida   |
+|  2 | omkar   | a        | mumbai  |
+|  3 | ajinkya | b        | amb     |
++----+---------+----------+---------+
+3 rows in set (0.00 sec)
+
+
+mysql> insert into class
+    -> (name,division,address) values('shaddy','d','navi mumbai'),('ajay','c','ghatkopar');
+Query OK, 2 rows affected (0.11 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> select * from class;
++----+---------+----------+-------------+
+| ID | name    | division | address     |
++----+---------+----------+-------------+
+|  1 | Astha   | A        | Noida       |
+|  2 | omkar   | a        | mumbai      |
+|  3 | ajinkya | b        | amb         |
+|  4 | shaddy  | d        | navi mumbai |
+|  5 | ajay    | c        | ghatkopar   |
++----+---------+----------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from class
+    -> order by name asc;
++----+---------+----------+-------------+
+| ID | name    | division | address     |
++----+---------+----------+-------------+
+|  5 | ajay    | c        | ghatkopar   |
+|  3 | ajinkya | b        | amb         |
+|  1 | Astha   | A        | Noida       |
+|  2 | omkar   | a        | mumbai      |
+|  4 | shaddy  | d        | navi mumbai |
++----+---------+----------+-------------+
+5 rows in set (0.01 sec)
+
+mysql> select*from class
+    -> order by division asc;
++----+---------+----------+-------------+
+| ID | name    | division | address     |
++----+---------+----------+-------------+
+|  1 | Astha   | A        | Noida       |
+|  2 | omkar   | a        | mumbai      |
+|  3 | ajinkya | b        | amb         |
+|  5 | ajay    | c        | ghatkopar   |
+|  4 | shaddy  | d        | navi mumbai |
++----+---------+----------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from class
+    -> order by address asc;
++----+---------+----------+-------------+
+| ID | name    | division | address     |
++----+---------+----------+-------------+
+|  3 | ajinkya | b        | amb         |
+|  5 | ajay    | c        | ghatkopar   |
+|  2 | omkar   | a        | mumbai      |
+|  4 | shaddy  | d        | navi mumbai |
+|  1 | Astha   | A        | Noida       |
++----+---------+----------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from class
+    -> order by address desc;
++----+---------+----------+-------------+
+| ID | name    | division | address     |
++----+---------+----------+-------------+
+|  1 | Astha   | A        | Noida       |
+|  4 | shaddy  | d        | navi mumbai |
+|  2 | omkar   | a        | mumbai      |
+|  5 | ajay    | c        | ghatkopar   |
+|  3 | ajinkya | b        | amb         |
++----+---------+----------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select*from class
+    -> order by ID desc;
++----+---------+----------+-------------+
+| ID | name    | division | address     |
++----+---------+----------+-------------+
+|  5 | ajay    | c        | ghatkopar   |
+|  4 | shaddy  | d        | navi mumbai |
+|  3 | ajinkya | b        | amb         |
+|  2 | omkar   | a        | mumbai      |
+|  1 | Astha   | A        | Noida       |
++----+---------+----------+-------------+
+5 rows in set (0.00 sec)
+
+
+mysql> select id as id,
+    -> name
+    -> from class
+    -> order by id desc;
++----+---------+
+| id | name    |
++----+---------+
+|  5 | ajay    |
+|  4 | shaddy  |
+|  3 | ajinkya |
+|  2 | omkar   |
+|  1 | Astha   |
++----+---------+
+5 rows in set (0.00 sec)
+
+mysql> select id as abc,
+    -> name
+    -> from class
+    -> order by id desc;
++-----+---------+
+| abc | name    |
++-----+---------+
+|   5 | ajay    |
+|   4 | shaddy  |
+|   3 | ajinkya |
+|   2 | omkar   |
+|   1 | Astha   |
++-----+---------+
+5 rows in set (0.00 sec)
+
+
+mysql> select id as abc,
+    -> name
+    -> from class
+    -> order by id;
++-----+---------+
+| abc | name    |
++-----+---------+
+|   1 | Astha   |
+|   2 | omkar   |
+|   3 | ajinkya |
+|   4 | shaddy  |
+|   5 | ajay    |
++-----+---------+
+5 rows in set (0.00 sec)
+
+mysql> select id as abc,
+    -> name
+    -> from class
+    -> order by 1;
++-----+---------+
+| abc | name    |
++-----+---------+
+|   1 | Astha   |
+|   2 | omkar   |
+|   3 | ajinkya |
+|   4 | shaddy  |
+|   5 | ajay    |
++-----+---------+
+5 rows in set (0.00 sec)
+
+
+mysql> select id as abc,
+    -> name
+    -> from class
+    -> order by 2;
++-----+---------+
+| abc | name    |
++-----+---------+
+|   5 | ajay    |
+|   3 | ajinkya |
+|   1 | Astha   |
+|   2 | omkar   |
+|   4 | shaddy  |
++-----+---------+
+5 rows in set (0.00 sec)
