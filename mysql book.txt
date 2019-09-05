@@ -1,0 +1,312 @@
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 3
+Server version: 5.1.38-community MySQL Community Server (GPL)
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+
+mysql> use adventure;
+Database changed
+
+mysql> create table member
+    -> (
+    -> memberid int auto_increment primary key,
+    -> Fname varchar(20) not null,
+    -> Mname varchar(10),
+    -> Lname varchar(20) not null,
+    -> mem_doj date,
+    -> email varchar(30),
+    -> phone char (10),
+    -> mem_type enum
+    -> ('regular','silver','gold','premium')
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> insert into member(Fname,Mname,Lname,mem_DOJ,email,phone,mem_type)
+    -> values
+    -> ('steven',null,'king',now(),'sking@gmail.com','7648638683','gold'),
+    -> ('robbert','T','clove','2018-12-05','robbert@gmail.com','9837654239','silver'),
+    -> ('pamela','O','atkinson','2019-02-05','pamela3636@gmail.com','8833564239','premium');
+Query OK, 3 rows affected, 1 warning (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 1
+
+mysql> SELECT * FROM MEMBER;
++----------+---------+-------+----------+------------+----------------------+------------+----------+
+| memberid | Fname   | Mname | Lname    | mem_doj    | email                | phone      | mem_type |
++----------+---------+-------+----------+------------+----------------------+------------+----------+
+|        1 | steven  | NULL  | king     | 2019-08-27 | sking@gmail.com      | 7648638683 | gold     |
+|        2 | robbert | T     | clove    | 2018-12-05 | robbert@gmail.com    | 9837654239 | silver   |
+|        3 | pamela  | O     | atkinson | 2019-02-05 | pamela3636@gmail.com | 8833564239 | premium  |
++----------+---------+-------+----------+------------+----------------------+------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> use adventure;
+Database changed
+
+mysql> create table book
+    -> (
+    -> id int auto_increment primary key ,
+    -> bname varchar(20),
+    -> author varchar (20)
+    -> );
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into class
+    -> (bname,author) values
+    -> ('let us c','yashwant'),
+    -> ('harry potter','jk rowling'),
+    -> ('u can win','shiv khera');
+Query OK, 3 rows affected, 1 warning (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 1
+
+
+mysql> select* from book;
++------+--------------+------------+
+| id   | bname        | author     |
++------+--------------+------------+
+|    1 | let us c     | yashwant   |
+|    2 | harry potter | jk rowling |
+|    3 | u can win    | shiv khera |
++------+--------------+------------+
+3 rows in set (0.09 sec)
+
+
+mysql>  ALTER table Book
+    -> modify column author char(30) not null;
+Query OK, 3 rows affected (0.31 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select*from book;
++------+--------------+------------+
+| id   | Bname        | author     |
++------+--------------+------------+
+|    1 | let us c     | yashwant   |
+|    2 | harry potter | jk rowling |
+|    3 | u can win    | shiv khera |
++------+--------------+------------+
+3 rows in set (0.00 sec)
+
+
+mysql> use adventure;
+Database changed
+mysql> select*from book;
++------+--------------+------------+
+| id   | Bname        | author     |
++------+--------------+------------+
+|    1 | let us c     | yashwant   |
+|    2 | harry potter | jk rowling |
+|    3 | u can win    | shiv khera |
++------+--------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select*from member;
++----------+---------+-------+----------+------------+----------------------+------------+----------+
+| memberid | Fname   | Mname | Lname    | mem_doj    | email                | phone      | mem_type |
++----------+---------+-------+----------+------------+----------------------+------------+----------+
+|        1 | steven  | NULL  | king     | 2019-08-27 | sking@gmail.com      | 7648638683 | gold     |
+|        2 | robbert | T     | clove    | 2018-12-05 | robbert@gmail.com    | 9837654239 | silver   |
+|        3 | pamela  | O     | atkinson | 2019-02-05 | pamela3636@gmail.com | 8833564239 | premium  |
++----------+---------+-------+----------+------------+----------------------+------------+----------+
+3 rows in set (0.00 sec)
+
+mysql> alter table book
+    -> ADD column Author varchar(40) not null;
+ERROR 1060 (42S21): Duplicate column name 'Author'
+mysql> alter table book
+    -> drop column author;
+Query OK, 3 rows affected (0.31 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select*from book;
++------+--------------+
+| id   | Bname        |
++------+--------------+
+|    1 | let us c     |
+|    2 | harry potter |
+|    3 | u can win    |
++------+--------------+
+3 rows in set (0.01 sec)
+
+
+mysql>  alter table book
+    ->  ADD column Author varchar(40) not null;
+Query OK, 3 rows affected (0.41 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select*from book;
++------+--------------+--------+
+| id   | Bname        | Author |
++------+--------------+--------+
+|    1 | let us c     |        |
+|    2 | harry potter |        |
+|    3 | u can win    |        |
++------+--------------+--------+
+3 rows in set (0.00 sec)
+
+mysql> describe book;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int(11)     | YES  |     | NULL    |       |
+| Bname  | varchar(20) | YES  |     | NULL    |       |
+| Author | varchar(40) | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> ALTER table Book
+    -> modify column author char(30) not null;
+Query OK, 3 rows affected (0.25 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> describe book;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| id     | int(11)     | YES  |     | NULL    |       |
+| Bname  | varchar(20) | YES  |     | NULL    |       |
+| author | char(30)    | NO   |     | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql>  alter table book
+    ->  drop column author;
+Query OK, 3 rows affected (0.55 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> describe book;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int(11)     | YES  |     | NULL    |       |
+| Bname | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+
+mysql> insert into book(Bookname,price)values('HTML5 STEP BY STEP', NULL),
+    -> ('Java unleashed',-560);
+Query OK, 2 rows affected (0.05 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> delete from book
+    -> where bookid=4;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> truncate book;
+Query OK, 0 rows affected (0.03 sec)
+
+
+mysql> select* from book;
+Empty set (0.00 sec)
+
+mysql> drop table book;
+Query OK, 0 rows affected (0.03 sec)
+
+
+mysql> create table book
+    -> (
+    -> id int auto_increment primary key,
+    -> bname varchar(50) not null,
+    -> price decimal(6,2)
+    -> );
+Query OK, 0 rows affected (0.16 sec)
+
+mysql> select * from book;
+Empty set (0.00 sec)
+
+
+mysql> insert into book (bname,Price)
+    -> values
+    -> ('My SQL for dummies',350),
+    -> ('HTML step by step', null),
+    -> ('My SQL for Developers',560);
+Query OK, 3 rows affected (0.05 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from book;
++----+-----------------------+--------+
+| id | bname                 | price  |
++----+-----------------------+--------+
+|  1 | My SQL for dummies    | 350.00 |
+|  2 | HTML step by step     |   NULL |
+|  3 | My SQL for Developers | 560.00 |
++----+-----------------------+--------+
+3 rows in set (0.03 sec)
+
+mysql> describe book;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| bname | varchar(50)  | NO   |     | NULL    |                |
+| price | decimal(6,2) | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+3 rows in set (0.02 sec)
+
+
+mysql> create table booktran
+    -> (
+    -> trnID int AUTO_INCREMENT primary key,
+    -> trnDate datetime,
+    -> BookID int,
+    -> CONSTRAINT booktran_bookID_fk
+    -> foreign key(bookID)
+    -> references book(ID),
+    -> memberID int,
+    -> CONSTRAINT booktran_memberID_fk
+    -> foreign key(memberID)
+    -> references member(memberID)
+    -> );
+Query OK, 0 rows affected (0.25 sec)
+
+mysql> insert into booktran
+    -> (trndate,bookID,memberID)
+    -> values
+    -> (now(),2,1);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> select * from booktran;
++-------+---------------------+--------+----------+
+| trnID | trnDate             | BookID | memberID |
++-------+---------------------+--------+----------+
+|     1 | 2019-08-27 20:03:24 |      2 |        1 |
++-------+---------------------+--------+----------+
+1 row in set (0.00 sec)
+
+mysql> insert into booktran
+    -> (trndate,bookID,memberID)
+    -> values
+    -> (now(),1,2);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from booktran;
++-------+---------------------+--------+----------+
+| trnID | trnDate             | BookID | memberID |
++-------+---------------------+--------+----------+
+|     1 | 2019-08-27 20:03:24 |      2 |        1 |
+|     2 | 2019-08-27 20:04:18 |      1 |        2 |
++-------+---------------------+--------+----------+
+2 rows in set (0.00 sec)
+
+mysql> insert into booktran
+    -> (trndate,bookID,memberID)
+    -> values
+    -> (now(),3,3);
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from booktran;
++-------+---------------------+--------+----------+
+| trnID | trnDate             | BookID | memberID |
++-------+---------------------+--------+----------+
+|     1 | 2019-08-27 20:03:24 |      2 |        1 |
+|     2 | 2019-08-27 20:04:18 |      1 |        2 |
+|     3 | 2019-08-27 20:04:49 |      3 |        3 |
++-------+---------------------+--------+----------+
+3 rows in set (0.00 sec)
+
+mysql> delete from book
+    -> where bookid=3;
+ERROR 1054 (42S22): Unknown column 'bookid' in 'where clause'
+mysql>
+
