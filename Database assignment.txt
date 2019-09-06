@@ -1,0 +1,1022 @@
+mysql> use study;
+Database changed
+
+mysql> create table salespeople
+    -> ( snum int primary key,
+    -> sname varchar(20),
+    -> city varchar(20),
+    -> comm decimal (2,2)
+    -> );
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> insert into salespeople
+    -> values
+    -> (1001,'Peel','London',.12),
+    -> (1002,'Serres','san Jose',.13),
+    -> (1004,'Motika','London',.11),
+    -> (1007,'Rif kin','Barcelona',.15),
+    -> (1003,'Axel rod','New York',.10),
+    -> (1005,'Frank','London',.26);
+Query OK, 6 rows affected (0.05 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select *
+    -> from salespeople;
++------+----------+-----------+------+
+| snum | sname    | city      | comm |
++------+----------+-----------+------+
+| 1001 | Peel     | London    | 0.12 |
+| 1002 | Serres   | san Jose  | 0.13 |
+| 1003 | Axel rod | New York  | 0.10 |
+| 1004 | Motika   | London    | 0.11 |
+| 1005 | Frank    | London    | 0.26 |
+| 1007 | Rif kin  | Barcelona | 0.15 |
++------+----------+-----------+------+
+6 rows in set (0.00 sec)
+
+
+mysql> create table customers
+    -> ( cnum int primary key,
+    -> cname varchar(20),
+    -> city varchar(20),
+    -> rating int,
+    -> snum int references salespeople(snum)
+    -> );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> insert into customers
+    -> values
+    -> (2001,'Hoffman','London',100,1001),
+    -> (2002,'Giovanni','Rome',200,1003),
+    -> (2003,'LIU','San jose',200,1002),
+    -> (2004,'Grass','Berline',300,1002),
+    -> (2006,'Clemans','London',100,1001),
+    -> (2008,'Cisneros','San JOse',300,1007),
+    -> (2007,'Pereira','Rome',100,1004);
+Query OK, 7 rows affected (0.03 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> Select *
+    -> from Customers;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2001 | Hoffman  | London   |    100 | 1001 |
+| 2002 | Giovanni | Rome     |    200 | 1003 |
+| 2003 | LIU      | San jose |    200 | 1002 |
+| 2004 | Grass    | Berline  |    300 | 1002 |
+| 2006 | Clemans  | London   |    100 | 1001 |
+| 2007 | Pereira  | Rome     |    100 | 1004 |
+| 2008 | Cisneros | San JOse |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+mysql> create table orders1
+    -> ( onum int primary key,
+    -> amt decimal (6,2),
+    -> odate date,
+    -> snum int references salespeople(snum),
+    -> cnum int references customers(cnum)
+    -> );
+Query OK, 0 rows affected (0.08 sec)
+
+
+mysql> create table orders1
+    -> ( onum int primary key,
+    -> amt decimal (6,2),
+    -> odate date,
+    -> cnum int references customers(cnum),
+    -> snum int references salespeople(snum)
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into orders1
+    -> values
+    -> (3001, 18.69,'1996/03/10',2008,1007),
+    -> (3003, 767.19,'1996/03/10',2001,1001),
+    -> (3002, 1900.10,'1996/03/10',2007,1004),
+    -> (3005, 5160.45,'1996/03/10',2003,1002),
+    -> (3006, 1098.16,'1996/03/10',2008,1007),
+    -> (3009, 1713.23,'1996/04/10',2002,1003),
+    -> (3007, 75.75,'1996/04/10',2002,1003),
+    -> (3008, 4723.00,'1996/05/10',2006,1001),
+    -> (3010, 1309.95,'1996/06/10',2004,1002),
+    -> (3011, 9891.88,'1996/06/10',2006,1001);
+Query OK, 10 rows affected (0.03 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select *
+    -> from orders1;
++------+---------+------------+------+------+
+| onum | amt     | odate      | cnum | snum |
++------+---------+------------+------+------+
+| 3001 |   18.69 | 1996-03-10 | 2008 | 1007 |
+| 3002 | 1900.10 | 1996-03-10 | 2007 | 1004 |
+| 3003 |  767.19 | 1996-03-10 | 2001 | 1001 |
+| 3005 | 5160.45 | 1996-03-10 | 2003 | 1002 |
+| 3006 | 1098.16 | 1996-03-10 | 2008 | 1007 |
+| 3007 |   75.75 | 1996-04-10 | 2002 | 1003 |
+| 3008 | 4723.00 | 1996-05-10 | 2006 | 1001 |
+| 3009 | 1713.23 | 1996-04-10 | 2002 | 1003 |
+| 3010 | 1309.95 | 1996-06-10 | 2004 | 1002 |
+| 3011 | 9891.88 | 1996-06-10 | 2006 | 1001 |
++------+---------+------------+------+------+
+10 rows in set (0.00 sec)
+
+
+
+
+mysql> select column_name
+    -> from information_schema.columns
+    -> where table_name='salespeople';
++-------------+
+| column_name |
++-------------+
+| snum        |
+| sname       |
+| city        |
+| comm        |
++-------------+
+4 rows in set (0.05 sec)
+
+
+
+mysql> select * from customers
+    -> where rating=100;
++------+---------+--------+--------+------+
+| cnum | cname   | city   | rating | snum |
++------+---------+--------+--------+------+
+| 2001 | hoffman | london |    100 | 1001 |
+| 2006 | clemens | london |    100 | 1001 |
+| 2007 | pereia  | rome   |    100 | 1004 |
++------+---------+--------+--------+------+
+3 rows in set (0.00 sec)
+
+mysql> select*from customers
+    -> where city=null;
+Empty set (0.00 sec)
+
+
+
+
+
+mysql> select*from customers
+    -> where rating>200;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2004 | grass    | berlin   |    300 | 1002 |
+| 2008 | cisneros | san jose |    300 | 1007 |
++------+----------+----------+--------+------+
+2 rows in set (0.00 sec)
+
+
+
+
+mysql> select sname,comm
+    -> from salespeople
+    -> where city='london';
++--------+------+
+| sname  | comm |
++--------+------+
+| peel   | 0.12 |
+| motika | 0.11 |
+| fran   | 0.26 |
++--------+------+
+3 rows in set (0.01 sec)
+
+
+
+
+
+
+mysql> select sname,max(amt)
+    -> from salespeople s inner join orders1 o
+    -> on s.snum=o.snum;
++--------+----------+
+| sname  | max(amt) |
++--------+----------+
+| rifkin |  9891.88 |
++--------+----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> select sname,max(amt)
+    -> from salespeople s inner join orders1 o
+    -> on s.snum=o.snum
+    -> group by s.snum;
++---------+----------+
+| sname   | max(amt) |
++---------+----------+
+| peel    |  9891.88 |
+| serres  |  5160.45 |
+| axelrod |  1713.23 |
+| motika  |   1900.1 |
+| rifkin  |  1098.16 |
++---------+----------+
+5 rows in set (0.02 sec)
+
+
+
+
+
+mysql> select*from salespeople;
++------+---------+-----------+------+
+| snum | sname   | city      | comm |
++------+---------+-----------+------+
+| 1001 | peel    | london    | 0.12 |
+| 1002 | serres  | san jose  | 0.13 |
+| 1004 | motika  | london    | 0.11 |
+| 1007 | rifkin  | barcelona | 0.15 |
+| 1003 | axelrod | new york  |  0.1 |
+| 1005 | fran    | london    | 0.26 |
++------+---------+-----------+------+
+6 rows in set (0.00 sec)
+  
+
+
+
+
+
+mysql> select sname,max(amt)
+    -> from salespeople s inner join orders1 o
+    -> on s.snum=o.snum;
++--------+----------+
+| sname  | max(amt) |
++--------+----------+
+| rifkin |  9891.88 |
++--------+----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> select sname,max(amt)
+    -> from salespeople s inner join orders1 o
+    -> on s.snum=o.snum
+    -> group by s.snum;
++---------+----------+
+| sname   | max(amt) |
++---------+----------+
+| peel    |  9891.88 |
+| serres  |  5160.45 |
+| axelrod |  1713.23 |
+| motika  |   1900.1 |
+| rifkin  |  1098.16 |
++---------+----------+
+5 rows in set (0.02 sec)
+
+
+
+
+
+
+mysql> select odate,snum,max(amt)
+    -> from orders1
+    -> group by odate,snum;
++------------+------+----------+
+| odate      | snum | max(amt) |
++------------+------+----------+
+| 1996-10-03 | 1001 |   767.19 |
+| 1996-10-03 | 1002 |  5160.45 |
+| 1996-10-03 | 1004 |   1900.1 |
+| 1996-10-03 | 1007 |  1098.16 |
+| 1996-10-04 | 1003 |  1713.23 |
+| 1996-10-05 | 1001 |     4723 |
+| 1996-10-06 | 1001 |  9891.88 |
+| 1996-10-06 | 1002 |  1309.95 |
++------------+------+----------+
+8 rows in set (0.00 sec)
+
+ 
+
+mysql> select sname,odate
+    -> from salespeople inner join orders1
+    -> on salespeople.snum=orders1.snum
+    -> where odate='1996-06-10';
+Empty set (0.00 sec)
+
+
+
+mysql> select s.sname,o.odate
+    -> from orders1 o inner join salespeople s
+    -> on s.snum=o.snum
+    -> where odate='1996-06-10';
+Empty set (0.00 sec)
+
+
+
+mysql> select sname,odate
+    -> from salespeople inner join orders1
+    -> on salespeople.snum=orders1.snum
+    -> where odate='1996-10-06';
++--------+------------+
+| sname  | odate      |
++--------+------------+
+| serres | 1996-10-06 |
+| peel   | 1996-10-06 |
++--------+------------+
+2 rows in set (0.00 sec)
+
+
+
+mysql> select cname,sname
+    -> from customers inner join salespeople
+    -> on customers.snum=salespeople.snum;
++----------+---------+
+| cname    | sname   |
++----------+---------+
+| hoffman  | peel    |
+| giovanni | axelrod |
+| liu      | serres  |
+| grass    | serres  |
+| clemens  | peel    |
+| cisneros | rifkin  |
+| pereia   | motika  |
++----------+---------+
+7 rows in set (0.00 sec)
+
+ 
+
+
+mysql> select * from customers group by snum order by snum desc ;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2008 | cisneros | san jose |    300 | 1007 |
+| 2007 | pereia   | rome     |    100 | 1004 |
+| 2002 | giovanni | rome     |    200 | 1003 |
+| 2003 | liu      | san jose |    200 | 1002 |
+| 2001 | hoffman  | london   |    100 | 1001 |
++------+----------+----------+--------+------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> select * from customers  order by snum ;
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2001 | hoffman  | london   |    100 | 1001 |
+| 2006 | clemens  | london   |    100 | 1001 |
+| 2003 | liu      | san jose |    200 | 1002 |
+| 2004 | grass    | berlin   |    300 | 1002 |
+| 2002 | giovanni | rome     |    200 | 1003 |
+| 2007 | pereia   | rome     |    100 | 1004 |
+| 2008 | cisneros | san jose |    300 | 1007 |
++------+----------+----------+--------+------+
+7 rows in set (0.00 sec)
+
+
+
+mysql> select count(cnum) from customers group by snum ;
++-------------+
+| count(cnum) |
++-------------+
+|           2 |
+|           2 |
+|           1 |
+|           1 |
+|           1 |
++-------------+
+5 rows in set (0.00 sec)
+
+
+
+
+mysql> select snum, count(cnum) from customers group by snum ;
++------+-------------+
+| snum | count(cnum) |
++------+-------------+
+| 1001 |           2 |
+| 1002 |           2 |
+| 1003 |           1 |
+| 1004 |           1 |
+| 1007 |           1 |
++------+-------------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> select snum, count(cnum) from customers group by snum having count(cnum)>1 ;
++------+-------------+
+| snum | count(cnum) |
++------+-------------+
+| 1001 |           2 |
+| 1002 |           2 |
++------+-------------+
+2 rows in set (0.00 sec)
+
+
+
+
+mysql> select * from salespeople s inner join (select snum, count(cnum) from customers group by snum having count(cnum)>1) c
+    -> on c.snum=s.snum;
++------+--------+----------+------+------+-------------+
+| snum | sname  | city     | comm | snum | count(cnum) |
++------+--------+----------+------+------+-------------+
+| 1001 | peel   | london   | 0.12 | 1001 |           2 |
+| 1002 | serres | san jose | 0.13 | 1002 |           2 |
++------+--------+----------+------+------+-------------+
+2 rows in set (0.00 sec)
+
+
+
+
+mysql> select sname from salespeople s inner join (select snum, count(cnum) from customers group by snum having count(cnum)>1) c
+    -> on c.snum=s.snum;
++--------+
+| sname  |
++--------+
+| peel   |
+| serres |
++--------+
+2 rows in set (0.00 sec)
+
+
+
+
+mysql> select count(onum) from orders1 group by snum;
++-------------+
+| count(onum) |
++-------------+
+|           3 |
+|           2 |
+|           2 |
+|           1 |
+|           2 |
++-------------+
+5 rows in set (0.00 sec)
+
+
+
+
+mysql> select count(onum) from orders1 group by snum order by count(cnum)desc;
++-------------+
+| count(onum) |
++-------------+
+|           3 |
+|           2 |
+|           2 |
+|           2 |
+|           1 |
++-------------+
+5 rows in set (0.02 sec)
+
+
+
+
+mysql> select*from customers
+    -> where city='san jose';
++------+----------+----------+--------+------+
+| cnum | cname    | city     | rating | snum |
++------+----------+----------+--------+------+
+| 2003 | liu      | san jose |    200 | 1002 |
+| 2008 | cisneros | san jose |    300 | 1007 |
++------+----------+----------+--------+------+
+2 rows in set (0.00 sec)
+
+
+
+
+mysql> select sname,cname
+    -> from salespeople s join customers c
+    -> where s.city=c.city;
++--------+----------+
+| sname  | cname    |
++--------+----------+
+| peel   | hoffman  |
+| motika | hoffman  |
+| fran   | hoffman  |
+| serres | liu      |
+| peel   | clemens  |
+| motika | clemens  |
+| fran   | clemens  |
+| serres | cisneros |
++--------+----------+
+8 rows in set (0.00 sec)
+
+
+
+
+mysql> select odate,o.snum,sname,max(amt)
+    -> from orders1 o inner join salespeople s
+    -> on s.snum=o.snum
+    -> group by odate,snum ;
++------------+------+---------+----------+
+| odate      | snum | sname   | max(amt) |
++------------+------+---------+----------+
+| 1996-10-03 | 1001 | peel    |   767.19 |
+| 1996-10-03 | 1002 | serres  |  5160.45 |
+| 1996-10-03 | 1004 | motika  |   1900.1 |
+| 1996-10-03 | 1007 | rifkin  |  1098.16 |
+| 1996-10-04 | 1003 | axelrod |  1713.23 |
+| 1996-10-05 | 1001 | peel    |     4723 |
+| 1996-10-06 | 1001 | peel    |  9891.88 |
+| 1996-10-06 | 1002 | serres  |  1309.95 |
++------------+------+---------+----------+
+
+8 rows in set (0.00 sec)
+
+
+
+
+mysql> select sname,max(amt)
+    -> from salespeople s inner join orders1 o
+    -> on s.snum=o.snum;
++--------+----------+
+| sname  | max(amt) |
++--------+----------+
+| rifkin |  9891.88 |
++--------+----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> select sname,max(amt)
+    -> from salespeople s inner join orders1 o
+    -> on s.snum=o.snum
+    -> group by s.snum;
++---------+----------+
+| sname   | max(amt) |
++---------+----------+
+| peel    |  9891.88 |
+| serres  |  5160.45 |
+| axelrod |  1713.23 |
+| motika  |   1900.1 |
+| rifkin  |  1098.16 |
++---------+----------+
+5 rows in set (0.02 sec)
+
+
+
+
+
+mysql> select*from salespeople;
++------+---------+-----------+------+
+| snum | sname   | city      | comm |
++------+---------+-----------+------+
+| 1001 | peel    | london    | 0.12 |
+| 1002 | serres  | san jose  | 0.13 |
+| 1004 | motika  | london    | 0.11 |
+| 1007 | rifkin  | barcelona | 0.15 |
+| 1003 | axelrod | new york  |  0.1 |
+| 1005 | fran    | london    | 0.26 |
++------+---------+-----------+------+
+6 rows in set (0.00 sec)
+
+
+
+
+mysql> select cname from customers
+    -> where (city='san jose') AND (rating > 200);
++----------+
+| cname    |
++----------+
+| cisneros |
++----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> select sname,comm from salespeople
+    -> where city='london';
++--------+------+
+| sname  | comm |
++--------+------+
+| peel   | 0.12 |
+| motika | 0.11 |
+| fran   | 0.26 |
++--------+------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select * from orders1 o inner join salespeople s
+    -> where s.sname='motika';
++------+---------+------------+------+------+------+--------+--------+------+
+| onum | amt     | odate      | cnum | snum | snum | sname  | city   | comm |
++------+---------+------------+------+------+------+--------+--------+------+
+| 3001 |   18.69 | 1996-10-03 | 2008 | 1007 | 1004 | motika | london | 0.11 |
+| 3003 |  767.19 | 1996-10-03 | 2001 | 1001 | 1004 | motika | london | 0.11 |
+| 3002 |  1900.1 | 1996-10-03 | 2007 | 1004 | 1004 | motika | london | 0.11 |
+| 3005 | 5160.45 | 1996-10-03 | 2003 | 1002 | 1004 | motika | london | 0.11 |
+| 3006 | 1098.16 | 1996-10-03 | 2008 | 1007 | 1004 | motika | london | 0.11 |
+| 3009 | 1713.23 | 1996-10-04 | 2002 | 1003 | 1004 | motika | london | 0.11 |
+| 3007 |   75.75 | 1996-10-04 | 2002 | 1003 | 1004 | motika | london | 0.11 |
+| 3008 |    4723 | 1996-10-05 | 2006 | 1001 | 1004 | motika | london | 0.11 |
+| 3010 | 1309.95 | 1996-10-06 | 2004 | 1002 | 1004 | motika | london | 0.11 |
+| 3011 | 9891.88 | 1996-10-06 | 2006 | 1001 | 1004 | motika | london | 0.11 |
++------+---------+------------+------+------+------+--------+--------+------+
+10 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select * from orders1 o inner join salespeople s
+    -> where sname='motika';
++------+---------+------------+------+------+------+--------+--------+------+
+| onum | amt     | odate      | cnum | snum | snum | sname  | city   | comm |
++------+---------+------------+------+------+------+--------+--------+------+
+| 3001 |   18.69 | 1996-10-03 | 2008 | 1007 | 1004 | motika | london | 0.11 |
+| 3003 |  767.19 | 1996-10-03 | 2001 | 1001 | 1004 | motika | london | 0.11 |
+| 3002 |  1900.1 | 1996-10-03 | 2007 | 1004 | 1004 | motika | london | 0.11 |
+| 3005 | 5160.45 | 1996-10-03 | 2003 | 1002 | 1004 | motika | london | 0.11 |
+| 3006 | 1098.16 | 1996-10-03 | 2008 | 1007 | 1004 | motika | london | 0.11 |
+| 3009 | 1713.23 | 1996-10-04 | 2002 | 1003 | 1004 | motika | london | 0.11 |
+| 3007 |   75.75 | 1996-10-04 | 2002 | 1003 | 1004 | motika | london | 0.11 |
+| 3008 |    4723 | 1996-10-05 | 2006 | 1001 | 1004 | motika | london | 0.11 |
+| 3010 | 1309.95 | 1996-10-06 | 2004 | 1002 | 1004 | motika | london | 0.11 |
+| 3011 | 9891.88 | 1996-10-06 | 2006 | 1001 | 1004 | motika | london | 0.11 |
++------+---------+------------+------+------+------+--------+--------+------+
+10 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select * from orders1 o inner join salespeople s
+    -> on o.snum=s.snum
+    -> where sname='motika';
++------+--------+------------+------+------+------+--------+--------+------+
+| onum | amt    | odate      | cnum | snum | snum | sname  | city   | comm |
++------+--------+------------+------+------+------+--------+--------+------+
+| 3002 | 1900.1 | 1996-10-03 | 2007 | 1004 | 1004 | motika | london | 0.11 |
++------+--------+------------+------+------+------+--------+--------+------+
+1 row in set (0.00 sec)
+
+
+
+
+mysql> select cname from customers c inner join orders1 o on c.cnum=o.cnum
+    -> where odate='1996-10-03';
++----------+
+| cname    |
++----------+
+| cisneros |
+| hoffman  |
+| pereia   |
+| liu      |
+| cisneros |
++----------+
+5 rows in set (0.00 sec)
+
+
+
+
+mysql> select distinct(cname) from customers c inner join orders1 o on c.cnum=o.cnum
+    -> ;
++----------+
+| cname    |
++----------+
+| cisneros |
+| hoffman  |
+| pereia   |
+| liu      |
+| giovanni |
+| clemens  |
+| grass    |
++----------+
+7 rows in set (0.00 sec)
+
+
+
+
+mysql> select distinct(cname) from customers c inner join orders1 o on c.cnum=o.cnum
+    -> where odate='1996-10-03';
++----------+
+| cname    |
++----------+
+| cisneros |
+| hoffman  |
+| pereia   |
+| liu      |
++----------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select cname from customers c inner join orders1 o on c.cnum=o.cnum
+    -> where odate='10031996';
+Empty set, 2 warnings (0.00 sec)
+
+mysql> select cname from customers c inner join orders1 o on c.cnum=o.cnum
+    -> where odate='19961003';
++----------+
+| cname    |
++----------+
+| cisneros |
+| hoffman  |
+| pereia   |
+| liu      |
+| cisneros |
++----------+
+5 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select sum(amt) from orders1 group by odate having sum(amt)>(max(amt)+2000);
++----------+
+| sum(amt) |
++----------+
+|  8944.59 |
++----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> select sum(amt) from orders1 group by odate;
++----------+
+| sum(amt) |
++----------+
+|  8944.59 |
+|  1788.98 |
+|     4723 |
+| 11201.83 |
++----------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
+mysql> select sum(amt) from orders1 group by odate
+    -> having sum(amt) > (select max(amt) from orders1);
++----------+
+| sum(amt) |
++----------+
+| 11201.83 |
++----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> select sum(amt) from orders1 group by odate
+    -> having sum(amt) > (select (max(amt)+2000) from orders1);
+Empty set (0.00 sec)
+
+
+mysql> select * from orders1 o inner join salespeople s
+    -> on o.snum=s.snum
+    -> where sname='motika';
++------+--------+------------+------+------+------+--------+--------+------+
+| onum | amt    | odate      | cnum | snum | snum | sname  | city   | comm |
++------+--------+------------+------+------+------+--------+--------+------+
+| 3002 | 1900.1 | 1996-10-03 | 2007 | 1004 | 1004 | motika | london | 0.11 |
++------+--------+------------+------+------+------+--------+--------+------+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> select cname from customers c inner join orders1 o on c.cnum=o.cnum
+    -> where odate='1996-10-03';
++----------+
+| cname    |
++----------+
+| cisneros |
+| hoffman  |
+| pereia   |
+| liu      |
+| cisneros |
++----------+
+5 rows in set (0.00 sec)
+
+
+
+
+mysql> select distinct(cname) from customers c inner join orders1 o on c.cnum=o.cnum
+    -> ;
++----------+
+| cname    |
++----------+
+| cisneros |
+| hoffman  |
+| pereia   |
+| liu      |
+| giovanni |
+| clemens  |
+| grass    |
++----------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select distinct(cname) from customers c inner join orders1 o on c.cnum=o.cnum
+    -> where odate='1996-10-03';
++----------+
+| cname    |
++----------+
+| cisneros |
+| hoffman  |
+| pereia   |
+| liu      |
++----------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
+mysql> select cname from customers c inner join orders1 o on c.cnum=o.cnum
+    -> where odate='19961003';
++----------+
+| cname    |
++----------+
+| cisneros |
+| hoffman  |
+| pereia   |
+| liu      |
+| cisneros |
++----------+
+5 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select sum(amt) from orders1 group by odate having sum(amt)>(max(amt)+2000);
++----------+
+| sum(amt) |
++----------+
+|  8944.59 |
++----------+
+1 row in set (0.00 sec)
+
+
+
+
+
+mysql> select sum(amt) from orders1 group by odate;
++----------+
+| sum(amt) |
++----------+
+|  8944.59 |
+|  1788.98 |
+|     4723 |
+| 11201.83 |
++----------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
+mysql> select sum(amt) from orders1 group by odate
+    -> having sum(amt) > (select max(amt) from orders1);
++----------+
+| sum(amt) |
++----------+
+| 11201.83 |
++----------+
+1 row in set (0.00 sec)
+
+
+
+
+mysql> select sum(amt) from orders1 group by odate
+    -> having sum(amt) > (select (max(amt)-4000) from orders1);
++----------+
+| sum(amt) |
++----------+
+|  8944.59 |
+| 11201.83 |
++----------+
+2 rows in set (0.01 sec)
+
+
+
+
+
+
+mysql> select onum from orders1
+    ->  where amt > (select min(amt) from orders1
+    -> where odate='19961006');
++------+
+| onum |
++------+
+| 3002 |
+| 3005 |
+| 3009 |
+| 3008 |
+| 3011 |
++------+
+5 rows in set (0.02 sec)
+
+
+
+
+
+mysql> select onum,amt from orders1
+    ->  where amt > (select min(amt) from orders1
+    -> where odate='19961006');
++------+---------+
+| onum | amt     |
++------+---------+
+| 3002 |  1900.1 |
+| 3005 | 5160.45 |
+| 3009 | 1713.23 |
+| 3008 |    4723 |
+| 3011 | 9891.88 |
++------+---------+
+5 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select cname,rating from customers
+    -> group by rating;
++----------+--------+
+| cname    | rating |
++----------+--------+
+| hoffman  |    100 |
+| giovanni |    200 |
+| grass    |    300 |
++----------+--------+
+3 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select cname,rating from customers
+    -> ;
++----------+--------+
+| cname    | rating |
++----------+--------+
+| hoffman  |    100 |
+| giovanni |    200 |
+| liu      |    200 |
+| grass    |    300 |
+| clemens  |    100 |
+| cisneros |    300 |
+| pereia   |    100 |
++----------+--------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+mysql> select rating,cname  from customers
+    -> group by rating,cname;
++--------+----------+
+| rating | cname    |
++--------+----------+
+|    100 | clemens  |
+|    100 | hoffman  |
+|    100 | pereia   |
+|    200 | giovanni |
+|    200 | liu      |
+|    300 | cisneros |
+|    300 | grass    |
++--------+----------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+
+mysql> select cname,rating from customers
+    -> group by rating,cname;
++----------+--------+
+| cname    | rating |
++----------+--------+
+| clemens  |    100 |
+| hoffman  |    100 |
+| pereia   |    100 |
+| giovanni |    200 |
+| liu      |    200 |
+| cisneros |    300 |
+| grass    |    300 |
++----------+--------+
+7 rows in set (0.00 sec)
+
+mysql>
